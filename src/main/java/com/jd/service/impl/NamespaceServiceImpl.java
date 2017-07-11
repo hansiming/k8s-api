@@ -20,18 +20,15 @@ public class NamespaceServiceImpl implements NamespaceService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NamespaceServiceImpl.class);
 
-    @Value("${k8s_url}")
-    private String k8sUrl;
-
     @Override
     public ReturnMessage getNamespaces() {
 
         NamespaceList list;
         try {
-            KubernetesClient client = K8sClientUtil.getKubernetesClient(k8sUrl);
+            KubernetesClient client = K8sClientUtil.getKubernetesClient();
             list = client.namespaces().list();
         } catch (Exception e) {
-            LOGGER.error("get namespace has exception, e = {}, url = {}", e, k8sUrl);
+            LOGGER.error("get namespace has exception, e = {}, url = {}", e);
             return new ReturnResult(false, e.getMessage(), null);
         }
         return new ReturnResult(true, "success", list);
@@ -42,7 +39,7 @@ public class NamespaceServiceImpl implements NamespaceService {
 
         Namespace namespace;
         try {
-            KubernetesClient client = K8sClientUtil.getKubernetesClient(k8sUrl);
+            KubernetesClient client = K8sClientUtil.getKubernetesClient();
             namespace = client.namespaces().withName(namespaceName).get();
         } catch (Exception e) {
             LOGGER.error("get namespace by name has error, e = {}, namespace name = {}", e, namespaceName);
@@ -62,7 +59,7 @@ public class NamespaceServiceImpl implements NamespaceService {
     public ReturnMessage create(String namespaceName, String labelKey, String labelValue) {
 
         try {
-            KubernetesClient client = K8sClientUtil.getKubernetesClient(k8sUrl);
+            KubernetesClient client = K8sClientUtil.getKubernetesClient();
             client.namespaces().createNew().withNewMetadata().withName(namespaceName)
                     .addToLabels(labelKey, labelValue).endMetadata().done();
         } catch (Exception e) {
@@ -78,7 +75,7 @@ public class NamespaceServiceImpl implements NamespaceService {
     public ReturnMessage del(String namespaceName) {
 
         try {
-            KubernetesClient client = K8sClientUtil.getKubernetesClient(k8sUrl);
+            KubernetesClient client = K8sClientUtil.getKubernetesClient();
             client.namespaces().withName(namespaceName).delete();
         } catch (Exception e) {
             LOGGER.error("del namespace has error, e = {}, namespace name = {}", e, namespaceName);
@@ -93,7 +90,7 @@ public class NamespaceServiceImpl implements NamespaceService {
     public ReturnMessage edit(String namespaceName, String labelKey, String labelValue) {
 
         try {
-            KubernetesClient client = K8sClientUtil.getKubernetesClient(k8sUrl);
+            KubernetesClient client = K8sClientUtil.getKubernetesClient();
             client.namespaces().withName(namespaceName).edit().editMetadata().addToLabels(labelKey, labelValue).endMetadata().done();;
         } catch (Exception e) {
             LOGGER.error("edit namespace has error, e = {}, namespace name = {}", e, namespaceName);

@@ -19,15 +19,12 @@ public class ServiceK8sServiceImpl implements ServiceK8sService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ServiceK8sServiceImpl.class);
 
-    @Value("${k8s_url}")
-    private String k8sUrl;
-
     @Override
     public ReturnMessage getServices() {
 
         ServiceList list;
         try {
-            KubernetesClient client = K8sClientUtil.getKubernetesClient(k8sUrl);
+            KubernetesClient client = K8sClientUtil.getKubernetesClient();
             list = client.services().list();
         } catch (Exception e) {
             LOGGER.error("get services has error, e = {}", e);
@@ -43,7 +40,7 @@ public class ServiceK8sServiceImpl implements ServiceK8sService {
 
         ServiceList list;
         try {
-            KubernetesClient client = K8sClientUtil.getKubernetesClient(k8sUrl);
+            KubernetesClient client = K8sClientUtil.getKubernetesClient();
             list = client.services().inNamespace(namespaceName).list();
         } catch (Exception e) {
             LOGGER.error("get services has error, e = {}, namespaceName = {}", e, namespaceName);
@@ -57,8 +54,13 @@ public class ServiceK8sServiceImpl implements ServiceK8sService {
     @Override
     public ReturnMessage create(String namespaceName, String serviceName, String labelKey, String labelValue) {
 
+        KubernetesClient client = K8sClientUtil.getKubernetesClient();
+
+        if(!namespaceIsExist(namespaceName, client)) {
+            return new ReturnResult(false, "namespace " + namespaceName + " does not exist!", null);
+        }
+
         try {
-            KubernetesClient client = K8sClientUtil.getKubernetesClient(k8sUrl);
             client.services().inNamespace(namespaceName).createNew().editOrNewMetadata().withName(serviceName)
                     .addToLabels(labelKey, labelValue).endMetadata().done();
         } catch (Exception e) {
@@ -80,5 +82,13 @@ public class ServiceK8sServiceImpl implements ServiceK8sService {
     @Override
     public ReturnMessage del(String namespaceName, String serviceName) {
         return null;
+    }
+
+    private boolean namespaceIsExist(String namespaceName, KubernetesClient client) {
+
+        if(client.namespaces().withName(namespaceName).get() == null)
+            return false;
+
+        return true;
     }
 }
