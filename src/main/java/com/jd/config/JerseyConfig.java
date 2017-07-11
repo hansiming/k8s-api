@@ -1,6 +1,7 @@
 package com.jd.config;
 
 import com.jd.server.NamespaceResource;
+import com.jd.server.ServiceK8sResource;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Component;
 public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {
+
         register(NamespaceResource.class);
+        register(ServiceK8sResource.class);
     }
 }
