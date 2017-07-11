@@ -73,7 +73,7 @@ public class ServiceK8sServiceImpl implements ServiceK8sService {
             return new ReturnResult(false, e.getMessage(), null);
         }
 
-        LOGGER.info("create services has error, serviceName = {}, namespaceName = {}, labelKey = {}, labelValue = {}",
+        LOGGER.info("create services successful, serviceName = {}, namespaceName = {}, labelKey = {}, labelValue = {}",
                 serviceName, namespaceName, labelKey, labelValue);
         return new ReturnResult(true, "suceess", null);
     }
@@ -101,7 +101,7 @@ public class ServiceK8sServiceImpl implements ServiceK8sService {
             return new ReturnResult(false, e.getMessage(), null);
         }
 
-        LOGGER.info("edit services has error, serviceName = {}, namespaceName = {}, labelKey = {}, labelValue = {}",
+        LOGGER.info("edit services successful, serviceName = {}, namespaceName = {}, labelKey = {}, labelValue = {}",
                 serviceName, namespaceName, labelKey, labelValue);
         return new ReturnResult(true, "suceess", null);
     }
@@ -128,7 +128,7 @@ public class ServiceK8sServiceImpl implements ServiceK8sService {
             return new ReturnResult(false, e.getMessage(), null);
         }
 
-        LOGGER.info("del services has error, serviceName = {}, namespaceName = {}}",
+        LOGGER.info("del services successful, serviceName = {}, namespaceName = {}}",
                 serviceName, namespaceName);
         return new ReturnResult(true, "suceess", null);
     }
