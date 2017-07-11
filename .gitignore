@@ -12,3 +12,4 @@ dist
 *egg*
 **/scalastyle-output.xml
 *dependency-reduced-pom.xml
+src/main/java/resources/**
