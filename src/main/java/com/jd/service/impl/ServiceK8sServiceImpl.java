@@ -34,18 +34,42 @@ public class ServiceK8sServiceImpl implements ServiceK8sService {
             return new ReturnResult(false, e.getMessage(), null);
         }
 
-        LOGGER.error("get services successful, list = {}", list);
+        LOGGER.info("get services successful, list = {}", list);
         return new ReturnResult(true, "success", list);
     }
 
     @Override
     public ReturnMessage getServicesByNamespaceName(String namespaceName) {
-        return null;
+
+        ServiceList list;
+        try {
+            KubernetesClient client = K8sClientUtil.getKubernetesClient(k8sUrl);
+            list = client.services().inNamespace(namespaceName).list();
+        } catch (Exception e) {
+            LOGGER.error("get services has error, e = {}, namespaceName = {}", e, namespaceName);
+            return new ReturnResult(false, e.getMessage(), null);
+        }
+
+        LOGGER.info("get services successful, list = {}", list);
+        return new ReturnResult(true, "success", list);
     }
 
     @Override
     public ReturnMessage create(String namespaceName, String serviceName, String labelKey, String labelValue) {
-        return null;
+
+        try {
+            KubernetesClient client = K8sClientUtil.getKubernetesClient(k8sUrl);
+            client.services().inNamespace(namespaceName).createNew().editOrNewMetadata().withName(serviceName)
+                    .addToLabels(labelKey, labelValue).endMetadata().done();
+        } catch (Exception e) {
+            LOGGER.error("create services has error, e = {}, serviceName = {}, namespaceName = {}, labelKey = {}, labelValue = {}",
+                    e, serviceName, namespaceName, labelKey, labelValue);
+            return new ReturnResult(false, e.getMessage(), null);
+        }
+
+        LOGGER.error("create services has error, serviceName = {}, namespaceName = {}, labelKey = {}, labelValue = {}",
+                serviceName, namespaceName, labelKey, labelValue);
+        return new ReturnResult(true, "suceess", null);
     }
 
     @Override
