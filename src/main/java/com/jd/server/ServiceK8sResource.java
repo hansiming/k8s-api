@@ -34,7 +34,7 @@ public class ServiceK8sResource {
     }
 
     @GET
-    @Path("getServicesByNamespaceName")
+    @Path("/getServicesByNamespaceName")
     public String getServicesByNamespaceName(String namespaceName) {
 
         if(StringUtils.isBlank(namespaceName)) {
@@ -45,7 +45,7 @@ public class ServiceK8sResource {
     }
 
     @POST
-    @Path("create")
+    @Path("/create")
     public String create(String namespaceName, String serviceName, String labelKey, String labelValue) {
 
         if(StringUtils.isBlank(namespaceName)) {
