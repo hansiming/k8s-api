@@ -94,7 +94,7 @@ public class NamespaceServiceImpl implements NamespaceService {
 
         try {
             KubernetesClient client = K8sClientUtil.getKubernetesClient(k8sUrl);
-            client.namespaces().withName(namespaceName).edit().editMetadata().addToLabels(labelKey, labelValue);
+            client.namespaces().withName(namespaceName).edit().editMetadata().addToLabels(labelKey, labelValue).endMetadata().done();;
         } catch (Exception e) {
             LOGGER.error("edit namespace has error, e = {}, namespace name = {}", e, namespaceName);
             return new ReturnResult(false, e.getMessage(), null);
