@@ -74,4 +74,24 @@ public class NamespaceResource {
 
         return gson.toJson(service.del(namespaceName));
     }
+
+    @POST
+    @Path("/createNamespace")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String edit(@FormParam("namespaceName") String namespaceName, @FormParam("labelKey") String labelKey, @FormParam("labelValue") String labelValue) {
+
+        if(StringUtils.isBlank(namespaceName)) {
+            return gson.toJson(new ReturnResult(false, "namespaceName is empty", null));
+        }
+
+        if(StringUtils.isBlank(labelKey)) {
+            return gson.toJson(new ReturnResult(false, "label key is empty", null));
+        }
+
+        if(StringUtils.isBlank(labelValue)) {
+            return gson.toJson(new ReturnResult(false, "label value is empty", null));
+        }
+
+        return gson.toJson(service.edit(namespaceName, labelKey, labelValue));
+    }
 }
