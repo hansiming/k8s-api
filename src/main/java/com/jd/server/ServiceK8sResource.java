@@ -9,9 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 
 /**
  * Created by hansiming on 2017/7/11.
@@ -35,7 +33,7 @@ public class ServiceK8sResource {
 
     @GET
     @Path("/getServicesByNamespaceName")
-    public String getServicesByNamespaceName(String namespaceName) {
+    public String getServicesByNamespaceName(@QueryParam("namespaceName") String namespaceName) {
 
         if(StringUtils.isBlank(namespaceName)) {
             return gson.toJson(new ReturnMessage(false, "namespaceName is empty"));
@@ -46,7 +44,8 @@ public class ServiceK8sResource {
 
     @POST
     @Path("/create")
-    public String create(String namespaceName, String serviceName, String labelKey, String labelValue) {
+    public String create(@FormParam("namespaceName") String namespaceName, @FormParam("serviceName") String serviceName,
+                         @FormParam("labelKey") String labelKey, @FormParam("labelValue") String labelValue) {
 
         if(StringUtils.isBlank(namespaceName)) {
             return gson.toJson(new ReturnMessage(false, "namespaceName is empty"));
