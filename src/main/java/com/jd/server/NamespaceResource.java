@@ -76,7 +76,7 @@ public class NamespaceResource {
     }
 
     @POST
-    @Path("/createNamespace")
+    @Path("/editNamespace")
     @Produces(MediaType.APPLICATION_JSON)
     public String edit(@FormParam("namespaceName") String namespaceName, @FormParam("labelKey") String labelKey, @FormParam("labelValue") String labelValue) {
 
