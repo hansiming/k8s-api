@@ -37,6 +37,11 @@ public class NamespaceServiceImpl implements NamespaceService {
     @Override
     public ReturnMessage getNamespaceByName(String namespaceName) {
 
+        if(!K8sClientUtil.namespaceIsExist(namespaceName)) {
+            LOGGER.error("could not find namespace by name = {} ", namespaceName);
+            return new ReturnResult(false, "could not find namespace by name : " + namespaceName, null);
+        }
+
         Namespace namespace;
         try {
             KubernetesClient client = K8sClientUtil.getKubernetesClient();
@@ -44,11 +49,6 @@ public class NamespaceServiceImpl implements NamespaceService {
         } catch (Exception e) {
             LOGGER.error("get namespace by name has error, e = {}, namespace name = {}", e, namespaceName);
             return new ReturnResult(false, e.getMessage(), null);
-        }
-
-        if (namespace == null) {
-            LOGGER.error("could not find namespace by name = {} ", namespaceName);
-            return new ReturnResult(false, "could not find namespace by name : " + namespaceName, null);
         }
 
         LOGGER.info("find namespace  by name = {}, namespace = {} ", namespaceName, namespace);

@@ -29,4 +29,24 @@ public class K8sClientUtil {
         Config config = new ConfigBuilder().withMasterUrl(util.k8sUrl).build();
         return new DefaultKubernetesClient(config);
     }
+
+    public static boolean namespaceIsExist(String namespaceName) {
+        KubernetesClient client = getKubernetesClient();
+
+        if(client.namespaces().withName(namespaceName).get() == null)
+            return false;
+
+        return true;
+    }
+
+    public static boolean serviceIsExist(String serviceName) {
+
+
+        KubernetesClient client = getKubernetesClient();
+
+        if(client.services().withName(serviceName).get() == null)
+            return false;
+
+        return true;
+    }
 }
