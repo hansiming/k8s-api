@@ -63,8 +63,12 @@ public class NamespaceServiceImpl implements NamespaceService {
 
 //        try {
             KubernetesClient client = K8sClientUtil.getKubernetesClient(k8sUrl);
-            client.namespaces().createNew().editMetadata().withName(namespaceName)
-                    .addToLabels(labelKey, labelValue).endMetadata().done();
+            client.namespaces().createNew()
+                    .editMetadata()
+                    .withName(namespaceName)
+                    .addToLabels(labelKey, labelValue)
+                    .endMetadata()
+                    .done();
 //        } catch (Exception e) {
 //            LOGGER.error("create namespace has error, e = {}, namespace name = {}, label key = {}, label value = {}", e, namespaceName, labelKey, labelValue);
 //            return new ReturnResult(false, e.getMessage(), null);
