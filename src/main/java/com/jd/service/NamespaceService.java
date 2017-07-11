@@ -14,4 +14,6 @@ public interface NamespaceService {
     ReturnMessage create(String namespaceName, String labelKey, String labelValue);
 
     ReturnMessage del(String namespaceName);
+
+    ReturnMessage edit(String namespaceName, String labelKey, String labelValue);
 }

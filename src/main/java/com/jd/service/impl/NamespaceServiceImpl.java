@@ -77,7 +77,6 @@ public class NamespaceServiceImpl implements NamespaceService {
     @Override
     public ReturnMessage del(String namespaceName) {
 
-        Namespace myns;
         try {
             KubernetesClient client = K8sClientUtil.getKubernetesClient(k8sUrl);
             client.namespaces().withName(namespaceName).delete();
@@ -85,6 +84,23 @@ public class NamespaceServiceImpl implements NamespaceService {
             LOGGER.error("del namespace has error, e = {}, namespace name = {}", e, namespaceName);
             return new ReturnResult(false, e.getMessage(), null);
         }
-        return null;
+
+        LOGGER.info("del namespace successful, namespace = {}", namespaceName);
+        return new ReturnResult(true, "success", null);
+    }
+
+    @Override
+    public ReturnMessage edit(String namespaceName, String labelKey, String labelValue) {
+
+        try {
+            KubernetesClient client = K8sClientUtil.getKubernetesClient(k8sUrl);
+            client.namespaces().withName(namespaceName).edit().editMetadata().addToLabels(labelKey, labelValue);
+        } catch (Exception e) {
+            LOGGER.error("edit namespace has error, e = {}, namespace name = {}", e, namespaceName);
+            return new ReturnResult(false, e.getMessage(), null);
+        }
+
+        LOGGER.info("edit namespace successful, namespace = {}", namespaceName);
+        return new ReturnResult(true, "success", null);
     }
 }
