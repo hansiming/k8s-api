@@ -9,7 +9,6 @@ import io.fabric8.kubernetes.api.model.NamespaceList;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -27,6 +26,7 @@ public class NamespaceServiceImpl implements NamespaceService {
         try {
             KubernetesClient client = K8sClientUtil.getKubernetesClient();
             list = client.namespaces().list();
+            client.replicationControllers().inNamespace("").withName("").get();
         } catch (Exception e) {
             LOGGER.error("get namespace has exception, e = {}, url = {}", e);
             return new ReturnResult(false, e.getMessage(), null);
@@ -91,7 +91,7 @@ public class NamespaceServiceImpl implements NamespaceService {
 
         try {
             KubernetesClient client = K8sClientUtil.getKubernetesClient();
-            client.namespaces().withName(namespaceName).edit().editMetadata().addToLabels(labelKey, labelValue).endMetadata().done();;
+            client.namespaces().withName(namespaceName).edit().editMetadata().addToLabels(labelKey, labelValue).endMetadata().done();
         } catch (Exception e) {
             LOGGER.error("edit namespace has error, e = {}, namespace name = {}", e, namespaceName);
             return new ReturnResult(false, e.getMessage(), null);
