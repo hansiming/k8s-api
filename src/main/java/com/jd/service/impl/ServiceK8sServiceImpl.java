@@ -1,7 +1,6 @@
 package com.jd.service.impl;
 
 import com.jd.service.ServiceK8sService;
-import com.jd.util.K8sClientUtil;
 import com.jd.util.ReturnMessage;
 import com.jd.util.ReturnResult;
 import io.fabric8.kubernetes.api.model.ServiceList;
@@ -10,9 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import static com.jd.util.K8sClientUtil.getKubernetesClient;
-import static com.jd.util.K8sClientUtil.namespaceIsExist;
-import static com.jd.util.K8sClientUtil.serviceIsExist;
+import static com.jd.util.K8sClientUtil.*;
 
 /**
  * Created by hansiming on 2017/7/11.
