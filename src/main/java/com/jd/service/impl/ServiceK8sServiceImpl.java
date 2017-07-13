@@ -10,6 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import static com.jd.util.K8sClientUtil.getKubernetesClient;
+import static com.jd.util.K8sClientUtil.namespaceIsExist;
+import static com.jd.util.K8sClientUtil.serviceIsExist;
+
 /**
  * Created by hansiming on 2017/7/11.
  */
@@ -23,7 +27,7 @@ public class ServiceK8sServiceImpl implements ServiceK8sService {
 
         ServiceList list;
         try {
-            KubernetesClient client = K8sClientUtil.getKubernetesClient();
+            KubernetesClient client = getKubernetesClient();
             list = client.services().list();
         } catch (Exception e) {
             LOGGER.error("get services has error, e = {}", e);
@@ -37,14 +41,14 @@ public class ServiceK8sServiceImpl implements ServiceK8sService {
     @Override
     public ReturnMessage getServicesByNamespaceName(String namespaceName) {
 
-        if(!K8sClientUtil.namespaceIsExist(namespaceName)) {
+        if(!namespaceIsExist(namespaceName)) {
             LOGGER.error("could not find namespace by name = {} ", namespaceName);
             return new ReturnResult(false, "could not find namespace by name : " + namespaceName, null);
         }
 
         ServiceList list;
         try {
-            KubernetesClient client = K8sClientUtil.getKubernetesClient();
+            KubernetesClient client = getKubernetesClient();
             list = client.services().inNamespace(namespaceName).list();
         } catch (Exception e) {
             LOGGER.error("get services has error, e = {}, namespaceName = {}", e, namespaceName);
@@ -58,13 +62,13 @@ public class ServiceK8sServiceImpl implements ServiceK8sService {
     @Override
     public ReturnMessage create(String namespaceName, String serviceName, String labelKey, String labelValue) {
 
-        if(!K8sClientUtil.namespaceIsExist(namespaceName)) {
+        if(!namespaceIsExist(namespaceName)) {
             LOGGER.error("could not find namespace by name = {} ", namespaceName);
             return new ReturnResult(false, "could not find namespace by name : " + namespaceName, null);
         }
 
         try {
-            KubernetesClient client = K8sClientUtil.getKubernetesClient();
+            KubernetesClient client = getKubernetesClient();
             client.services().inNamespace(namespaceName).createNew().editOrNewMetadata().withName(serviceName)
                     .addToLabels(labelKey, labelValue).endMetadata().done();
         } catch (Exception e) {
@@ -81,18 +85,18 @@ public class ServiceK8sServiceImpl implements ServiceK8sService {
     @Override
     public ReturnMessage edit(String namespaceName, String serviceName, String labelKey, String labelValue) {
 
-        if(!K8sClientUtil.namespaceIsExist(namespaceName)) {
+        if(!namespaceIsExist(namespaceName)) {
             LOGGER.error("could not find namespace by name = {} ", namespaceName);
             return new ReturnResult(false, "could not find namespace by name : " + namespaceName, null);
         }
 
-        if(!K8sClientUtil.serviceIsExist(serviceName)) {
+        if(!serviceIsExist(serviceName)) {
             LOGGER.error("could not find serviceName by name = {} ", serviceName);
             return new ReturnResult(false, "could not find service by name : " + serviceName, null);
         }
 
         try {
-            KubernetesClient client = K8sClientUtil.getKubernetesClient();
+            KubernetesClient client = getKubernetesClient();
             client.services().inNamespace(namespaceName).withName(serviceName).edit().editMetadata()
                     .addToLabels(labelKey, labelValue).endMetadata().done();
         } catch (Exception e) {
@@ -109,18 +113,18 @@ public class ServiceK8sServiceImpl implements ServiceK8sService {
     @Override
     public ReturnMessage del(String namespaceName, String serviceName) {
 
-        if(!K8sClientUtil.namespaceIsExist(namespaceName)) {
+        if(!namespaceIsExist(namespaceName)) {
             LOGGER.error("could not find namespace by name = {} ", namespaceName);
             return new ReturnResult(false, "could not find namespace by name : " + namespaceName, null);
         }
 
-        if(!K8sClientUtil.serviceIsExist(serviceName)) {
+        if(!serviceIsExist(serviceName)) {
             LOGGER.error("could not find serviceName by name = {} ", serviceName);
             return new ReturnResult(false, "could not find service by name : " + serviceName, null);
         }
 
         try {
-            KubernetesClient client = K8sClientUtil.getKubernetesClient();
+            KubernetesClient client = getKubernetesClient();
             client.services().inNamespace(namespaceName).withName(serviceName).delete();
         } catch (Exception e) {
             LOGGER.error("del services has error, e = {}, serviceName = {}, namespaceName = {}",
