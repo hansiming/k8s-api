@@ -3,7 +3,6 @@ package com.jd.server;
 import com.google.gson.Gson;
 import com.jd.service.ServiceK8sService;
 import com.jd.util.ReturnMessage;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @Path("/service")
 public class ServiceK8sResource {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NamespaceResource.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceK8sResource.class);
     private static Gson gson = new Gson();
 
     @Autowired
