@@ -11,6 +11,6 @@
     </resultMap>
 
     <insert id="insertNamespace" parameterType="K8sNamespace" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO k8s_namespace (user_name, namespace_name) VALUES (#{userName}, #{namespaceName});
+        INSERT INTO namespace (user_name, namespace_name) VALUES (#{userName}, #{namespaceName});
     </insert>
 </mapper>
