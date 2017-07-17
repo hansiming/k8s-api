@@ -22,7 +22,6 @@ public class K8sServiceServiceImpl implements K8sServiceService {
     metadata:
         name: spark-master
     spec:
-        type: NodePort
         ports:
             - port: 7077
             targetPort: 7077
@@ -44,8 +43,10 @@ public class K8sServiceServiceImpl implements K8sServiceService {
         //get ports
         int sparkPort = CONTAINER_DEFAULT_SPARK_PORT;
         int httpPort = CONTAINER_DEFAULT_HTTP_PORT;
-        int sparkNodePort = CONTAINER_DEFAULT_SPARK_NODE_PORT + id;
-        String type = DEFAULT_SERVICE_TYPE;
+
+        //暂时不暴露spark和http的接口
+//        int sparkNodePort = CONTAINER_DEFAULT_SPARK_NODE_PORT + id;
+//        String type = DEFAULT_SERVICE_TYPE;
 
         //get default name
         String sparkName = DEFAULT_SPARK_NAME;
@@ -55,7 +56,7 @@ public class K8sServiceServiceImpl implements K8sServiceService {
         Map<String, String> masterSelector = getMasterSelector(resourceName);
 
         client.services().inNamespace(namespaceName).createNew().editOrNewMetadata().withName(masterServiceName).endMetadata()
-                .editOrNewSpec().withType(type).addNewPort().withName(sparkName).withPort(sparkPort).withNewTargetPort(sparkPort).withNodePort(sparkNodePort).endPort()
+                .editOrNewSpec().addNewPort().withName(sparkName).withPort(sparkPort).withNewTargetPort(sparkPort).endPort()
                 .addNewPort().withName(httpName).withPort(httpPort).withNewTargetPort(httpPort).endPort()
                 .addToSelector(masterSelector).endSpec().done();
     }
