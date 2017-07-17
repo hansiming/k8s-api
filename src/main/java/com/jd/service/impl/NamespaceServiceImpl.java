@@ -26,7 +26,7 @@ public class NamespaceServiceImpl implements NamespaceService {
         try {
             KubernetesClient client = K8sClientUtil.getKubernetesClient();
             list = client.namespaces().list();
-            client.replicationControllers().inNamespace("").withName("").get();
+//            client.replicationControllers().inNamespace("").withName("").get();
         } catch (Exception e) {
             LOGGER.error("get namespace has exception, e = {}, url = {}", e);
             return new ReturnResult(false, e.getMessage(), null);
