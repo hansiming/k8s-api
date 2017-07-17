@@ -45,6 +45,7 @@ public class K8sServiceServiceImpl implements K8sServiceService {
         int httpPort = CONTAINER_DEFAULT_HTTP_PORT;
 
         //暂时不暴露spark和http的接口
+        // Tip 暴露spark端口，http端口也会默认暴露
 //        int sparkNodePort = CONTAINER_DEFAULT_SPARK_NODE_PORT + id;
 //        String type = DEFAULT_SERVICE_TYPE;
 

@@ -40,7 +40,7 @@ public class K8sResourceServiceImpl implements K8sResourceService {
         K8sNamespace k8sNamespace = new K8sNamespace();
         k8sNamespace.setUserName(userName);
         k8sNamespace.setNamespaceName(namespaceName);
-        int id = k8sNamespaceDao.insertNamespace(k8sNamespace);
+        K8sNamespace namespace = k8sNamespaceDao.insertNamespace(k8sNamespace);
 
         try{
 
@@ -51,7 +51,7 @@ public class K8sResourceServiceImpl implements K8sResourceService {
             k8sControllerService.createMasterController(namespaceName, resourceName);
 
             //4. 创建一个MasterService
-            k8sServiceService.createMasterService(namespaceName, resourceName, id);
+            k8sServiceService.createMasterService(namespaceName, resourceName, namespace.getId());
 
             //5. 创建一个WorkController
             k8sControllerService.createWorkController(namespaceName, resourceName, containerCount);
@@ -60,7 +60,7 @@ public class K8sResourceServiceImpl implements K8sResourceService {
             k8sControllerService.createThriftServerController(namespaceName, resourceName);
 
             //7. 创建一个ThriftServerService
-            k8sServiceService.createThriftServerService(namespaceName, resourceName, id);
+            k8sServiceService.createThriftServerService(namespaceName, resourceName, namespace.getId());
         } catch (Exception e) {
 
             return new ReturnMessage(false, e.getMessage());

@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface K8sNamespaceDao {
 
-    int insertNamespace(K8sNamespace k8sNamespace);
+    K8sNamespace insertNamespace(K8sNamespace k8sNamespace);
 }
