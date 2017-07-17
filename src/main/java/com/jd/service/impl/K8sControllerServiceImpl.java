@@ -70,7 +70,6 @@ public class K8sControllerServiceImpl implements K8sControllerService {
         Map<String, Quantity> requests = getDefaultResource();
         Map<String, Quantity> limit = getDefaultResource();
 
-        //TODO image and command
         client.replicationControllers().inNamespace(namespaceName).createNew()
                 .editOrNewMetadata().withName(masterControllerName).endMetadata()
                 .editOrNewSpec().withReplicas(replicaCount).withSelector(masterSelector)

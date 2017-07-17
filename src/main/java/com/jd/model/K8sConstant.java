@@ -37,9 +37,10 @@ public class K8sConstant {
     /** Image And Command*/
     public static final String DEFAULT_IMAGE = "jcloud.com/xdata/spark:2.1.1";
     public static final String DEFAULT_MASTER_COMMAND = "/home/hadoop/start-master";
-    public static final String DEFAULT_WORKER_COMMAND = "/home/hadoop/start-master";
-    public static final String DEFAULT_THRIFT_SERVER_COMMAND = "/home/hadoop/start-master";
+    public static final String DEFAULT_WORKER_COMMAND = "/home/hadoop/start-worker";
+    public static final String DEFAULT_THRIFT_SERVER_COMMAND = "/home/hadoop/start-thriftserver";
 
+    /** Replica*/
     public static final int DEFAULT_MASTER_REPLICA = 1;
     public static final int DEFAULT_WORKER_REPLICA = 4;
     public static final int DEFAULT_THRIFT_SERVER_REPLICA = 1;
