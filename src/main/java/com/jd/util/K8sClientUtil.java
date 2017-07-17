@@ -1,5 +1,8 @@
 package com.jd.util;
 
+import com.google.common.collect.Maps;
+import io.fabric8.kubernetes.api.model.ContainerPort;
+import io.fabric8.kubernetes.api.model.Quantity;
 import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.ConfigBuilder;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
@@ -8,6 +11,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Map;
+
+import static com.jd.model.K8sConstant.*;
 
 /**
  * Created by hansiming on 2017/7/10.
@@ -31,22 +37,39 @@ public class K8sClientUtil {
     }
 
     public static boolean namespaceIsExist(String namespaceName) {
-        KubernetesClient client = getKubernetesClient();
 
+        KubernetesClient client = getKubernetesClient();
         if(client.namespaces().withName(namespaceName).get() == null)
             return false;
-
         return true;
     }
 
     public static boolean serviceIsExist(String serviceName) {
 
-
         KubernetesClient client = getKubernetesClient();
-
         if(client.services().withName(serviceName).get() == null)
             return false;
-
         return true;
+    }
+
+    public static Map<String, String> getMasterSelector(String resourceName) {
+
+        Map<String, String> selector = Maps.newHashMap();
+        selector.put(COMPONENT_INFO, resourceName + MASTER_INFO);
+        return selector;
+    }
+
+    public static Map<String, String> getWorkerSelector(String resourceName) {
+
+        Map<String, String> selector = Maps.newHashMap();
+        selector.put(COMPONENT_INFO, resourceName + WORK_INFO);
+        return selector;
+    }
+
+    public static Map<String, String> getThriftSelector(String resourceName) {
+
+        Map<String, String> selector = Maps.newHashMap();
+        selector.put(COMPONENT_INFO, resourceName + THRIFT_SERVER_INFO);
+        return selector;
     }
 }
