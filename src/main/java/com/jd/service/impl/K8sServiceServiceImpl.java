@@ -85,7 +85,7 @@ public class K8sServiceServiceImpl implements K8sServiceService {
 
         KubernetesClient client = K8sClientUtil.getKubernetesClient();
 
-        String thriftSeverServiceName = resourceName + THRIFT_SERVER_INFO + SERVICE_INFO;
+        String thriftSeverServiceName = DEFAULT_SPARK_NAME + THRIFT_SERVER_INFO + SERVICE_INFO;
         String workContainerName = DEFAULT_SPARK_NAME + WORK_INFO;
 
         String type = DEFAULT_SERVICE_TYPE;
