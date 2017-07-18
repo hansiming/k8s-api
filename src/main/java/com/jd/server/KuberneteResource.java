@@ -5,10 +5,7 @@ import com.jd.service.K8sResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 
 /**
  * Created by hansiming on 2017/7/14.
@@ -33,8 +30,8 @@ public class KuberneteResource {
 
     @GET
     @Path("/delete")
-    public String deleteResources(@FormParam("userName") String userName,
-                                  @FormParam("id") int resourceId) {
+    public String deleteResources(@QueryParam("userName") String userName,
+                                  @QueryParam("id") int resourceId) {
 
         return gson.toJson(service.deleteResource(userName, resourceId));
     }
