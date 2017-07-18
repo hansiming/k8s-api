@@ -33,7 +33,7 @@ public class K8sServiceServiceImpl implements K8sServiceService {
             component: spark-master
      */
     @Override
-    public void createMasterService(String namespaceName, String resourceName, int masterNodePort) throws Exception {
+    public void createMasterService(String namespaceName, int masterNodePort) throws Exception {
 
         /** masterNodePort 不能使用*/
         KubernetesClient client = K8sClientUtil.getKubernetesClient();
@@ -82,7 +82,7 @@ public class K8sServiceServiceImpl implements K8sServiceService {
             component: spark-thriftserver
      */
     @Override
-    public void createThriftServerService(String namespaceName, String resourceName, int thriftServerNodePort) throws Exception {
+    public void createThriftServerService(String namespaceName, int thriftServerNodePort) throws Exception {
 
         KubernetesClient client = K8sClientUtil.getKubernetesClient();
 
