@@ -38,7 +38,10 @@ public class K8sServiceServiceImpl implements K8sServiceService {
         KubernetesClient client = K8sClientUtil.getKubernetesClient();
 
         //get master service name
-        String masterServiceName = resourceName + MASTER_INFO + SERVICE_INFO;
+        String masterServiceName = DEFAULT_SPARK_NAME + MASTER_INFO + SERVICE_INFO;
+
+        //get container name
+        String masterContainerName = DEFAULT_SPARK_NAME + MASTER_INFO;
 
         //get ports
         int sparkPort = CONTAINER_DEFAULT_SPARK_PORT;
@@ -54,7 +57,7 @@ public class K8sServiceServiceImpl implements K8sServiceService {
         String httpName = DEFAULT_HTTP_NAME;
 
         //make selector
-        Map<String, String> masterSelector = getMasterSelector(resourceName);
+        Map<String, String> masterSelector = getMasterSelector(masterContainerName);
 
         client.services().inNamespace(namespaceName).createNew().editOrNewMetadata().withName(masterServiceName).endMetadata()
                 .editOrNewSpec().addNewPort().withName(sparkName).withPort(sparkPort).withNewTargetPort(sparkPort).endPort()
@@ -83,12 +86,14 @@ public class K8sServiceServiceImpl implements K8sServiceService {
         KubernetesClient client = K8sClientUtil.getKubernetesClient();
 
         String thriftSeverServiceName = resourceName + THRIFT_SERVER_INFO + SERVICE_INFO;
+        String workContainerName = DEFAULT_SPARK_NAME + WORK_INFO;
+
         String type = DEFAULT_SERVICE_TYPE;
         int port = CONTAINER_DEFAULT_THRIFT_PORT;
         int targetPort = CONTAINER_DEFAULT_THRIFT_PORT;
         int nodePort = CONTAINER_DEFAULT_THRIFT_NODE_PORT + id;
         String name = DEFAULT_SPARK_NAME;
-        Map<String, String> selector = getThriftSelector(resourceName);
+        Map<String, String> selector = getThriftSelector(workContainerName);
 
         client.services().inNamespace(namespaceName).createNew().editOrNewMetadata().withName(thriftSeverServiceName).endMetadata()
                 .editOrNewSpec().withType(type).addNewPort().withPort(port).withNewTargetPort(targetPort).withNodePort(nodePort).withName(name).endPort()

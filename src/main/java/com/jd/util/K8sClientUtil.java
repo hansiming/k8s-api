@@ -1,8 +1,6 @@
 package com.jd.util;
 
 import com.google.common.collect.Maps;
-import io.fabric8.kubernetes.api.model.ContainerPort;
-import io.fabric8.kubernetes.api.model.Quantity;
 import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.ConfigBuilder;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
@@ -52,24 +50,24 @@ public class K8sClientUtil {
         return true;
     }
 
-    public static Map<String, String> getMasterSelector(String resourceName) {
+    public static Map<String, String> getMasterSelector(String masterContainerName) {
 
         Map<String, String> selector = Maps.newHashMap();
-        selector.put(COMPONENT_INFO, resourceName + MASTER_INFO);
+        selector.put(COMPONENT_INFO, masterContainerName);
         return selector;
     }
 
-    public static Map<String, String> getWorkerSelector(String resourceName) {
+    public static Map<String, String> getWorkerSelector(String workerContainerName) {
 
         Map<String, String> selector = Maps.newHashMap();
-        selector.put(COMPONENT_INFO, resourceName + WORK_INFO);
+        selector.put(COMPONENT_INFO, workerContainerName);
         return selector;
     }
 
-    public static Map<String, String> getThriftSelector(String resourceName) {
+    public static Map<String, String> getThriftSelector(String thriftServerContainerName) {
 
         Map<String, String> selector = Maps.newHashMap();
-        selector.put(COMPONENT_INFO, resourceName + THRIFT_SERVER_INFO);
+        selector.put(COMPONENT_INFO, thriftServerContainerName + THRIFT_SERVER_INFO);
         return selector;
     }
 }

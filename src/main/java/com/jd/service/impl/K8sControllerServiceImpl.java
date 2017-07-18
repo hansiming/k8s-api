@@ -50,10 +50,13 @@ public class K8sControllerServiceImpl implements K8sControllerService {
         KubernetesClient client = K8sClientUtil.getKubernetesClient();
 
         //get controller name
-        String masterControllerName = resourceName + MASTER_INFO + CONTROLLER_INFO;
+        String masterControllerName = DEFAULT_SPARK_NAME + MASTER_INFO + CONTROLLER_INFO;
+
+        //get container name
+        String masterContainerName = DEFAULT_SPARK_NAME + MASTER_INFO;
 
         //make selector
-        Map<String, String> masterSelector = getMasterSelector(resourceName);
+        Map<String, String> masterSelector = getMasterSelector(masterContainerName);
 
         //replica
         int replicaCount = DEFAULT_MASTER_REPLICA;
@@ -74,7 +77,7 @@ public class K8sControllerServiceImpl implements K8sControllerService {
                 .editOrNewMetadata().withName(masterControllerName).endMetadata()
                 .editOrNewSpec().withReplicas(replicaCount).withSelector(masterSelector)
                 .editOrNewTemplate().withNewMetadata().addToLabels(masterSelector).endMetadata()
-                .editOrNewSpec().addNewContainer().withName(masterControllerName).withImage(image).withCommand(command).withPorts(sparkPort, httpPort)
+                .editOrNewSpec().addNewContainer().withName(masterContainerName).withImage(image).withCommand(command).withPorts(sparkPort, httpPort)
                 .editOrNewResources().addToRequests(requests).addToLimits(limit).endResources().endContainer().endSpec().endTemplate().endSpec().done();
     }
 
@@ -106,9 +109,11 @@ public class K8sControllerServiceImpl implements K8sControllerService {
 
         KubernetesClient client = K8sClientUtil.getKubernetesClient();
 
-        String workControllerName = resourceName + WORK_INFO + CONTROLLER_INFO;
+        String workControllerName = DEFAULT_SPARK_NAME + WORK_INFO + CONTROLLER_INFO;
+        String workContainerName = DEFAULT_SPARK_NAME + WORK_INFO;
+
         int workReplicaCount = containerCount;
-        Map<String, String> selector = getWorkerSelector(resourceName);
+        Map<String, String> selector = getWorkerSelector(workContainerName);
         String image = DEFAULT_IMAGE;
         String command = DEFAULT_WORKER_COMMAND;
         ContainerPort port = getDefaultWorkContainerPort();
@@ -117,7 +122,7 @@ public class K8sControllerServiceImpl implements K8sControllerService {
 
         client.replicationControllers().inNamespace(namespaceName).createNew().editOrNewMetadata().withName(workControllerName).endMetadata()
                 .editOrNewSpec().withReplicas(workReplicaCount).withSelector(selector).editOrNewTemplate().editOrNewMetadata().addToLabels(selector).endMetadata()
-                .editOrNewSpec().addNewContainer().withName(workControllerName).withImage(image).withCommand(command).withPorts(port)
+                .editOrNewSpec().addNewContainer().withName(workContainerName).withImage(image).withCommand(command).withPorts(port)
                 .editOrNewResources().addToRequests(requests).addToLimits(limit).endResources().endContainer().endSpec().endTemplate().endSpec().done();
     }
 
@@ -150,9 +155,11 @@ public class K8sControllerServiceImpl implements K8sControllerService {
 
         KubernetesClient client = K8sClientUtil.getKubernetesClient();
 
-        String thriftServerControllerName = resourceName + THRIFT_SERVER_INFO + CONTROLLER_INFO;
+        String thriftServerControllerName = DEFAULT_SPARK_NAME + THRIFT_SERVER_INFO + CONTROLLER_INFO;
+        String thriftServerContainerName = DEFAULT_SPARK_NAME + THRIFT_SERVER_INFO;
+
         int thriftServerControllerReplicaCount = DEFAULT_THRIFT_SERVER_REPLICA;
-        Map<String, String> selector = getThriftSelector(resourceName);
+        Map<String, String> selector = getThriftSelector(thriftServerContainerName);
         String image = DEFAULT_IMAGE;
         String command = DEFAULT_THRIFT_SERVER_COMMAND;
         ContainerPort port = getDefaultThriftServerContainerPort();
@@ -161,7 +168,7 @@ public class K8sControllerServiceImpl implements K8sControllerService {
 
         client.replicationControllers().inNamespace(namespaceName).createNew().editOrNewMetadata().withName(thriftServerControllerName).endMetadata()
                 .editOrNewSpec().withReplicas(thriftServerControllerReplicaCount).withSelector(selector).editOrNewTemplate().editOrNewMetadata().addToLabels(selector).endMetadata()
-                .editOrNewSpec().addNewContainer().withName(thriftServerControllerName).withImage(image).withCommand(command).withPorts(port)
+                .editOrNewSpec().addNewContainer().withName(thriftServerContainerName).withImage(image).withCommand(command).withPorts(port)
                 .editOrNewResources().addToRequests(requests).addToLimits(limit).endResources().endContainer().endSpec().endTemplate().endSpec().done();
     }
 
