@@ -45,7 +45,7 @@ public class K8sControllerServiceImpl implements K8sControllerService {
                     cpu: 100m
      */
     @Override
-    public void createMasterController(String namespaceName, String resourceName) throws Exception {
+    public void createMasterController(String namespaceName) throws Exception {
 
         KubernetesClient client = K8sClientUtil.getKubernetesClient();
 
@@ -105,7 +105,7 @@ public class K8sControllerServiceImpl implements K8sControllerService {
                         cpu: 100m
      */
     @Override
-    public void createWorkController(String namespaceName, String resourceName, int containerCount) throws Exception {
+    public void createWorkController(String namespaceName, int containerCount) throws Exception {
 
         KubernetesClient client = K8sClientUtil.getKubernetesClient();
 
@@ -124,6 +124,17 @@ public class K8sControllerServiceImpl implements K8sControllerService {
                 .editOrNewSpec().withReplicas(workReplicaCount).withSelector(selector).editOrNewTemplate().editOrNewMetadata().addToLabels(selector).endMetadata()
                 .editOrNewSpec().addNewContainer().withName(workContainerName).withImage(image).withCommand(command).withPorts(port)
                 .editOrNewResources().addToRequests(requests).addToLimits(limit).endResources().endContainer().endSpec().endTemplate().endSpec().done();
+    }
+
+    @Override
+    public void editWorkController(String namespaceName, int containerCount) throws Exception {
+
+        KubernetesClient client = K8sClientUtil.getKubernetesClient();
+
+        String workControllerName = DEFAULT_SPARK_NAME + WORK_INFO + CONTROLLER_INFO;
+
+        client.replicationControllers().inNamespace(namespaceName).withName(workControllerName)
+                .edit().editSpec().withReplicas(containerCount).endSpec().done();
     }
 
     /**
@@ -151,7 +162,7 @@ public class K8sControllerServiceImpl implements K8sControllerService {
                         cpu: 100m
      */
     @Override
-    public void createThriftServerController(String namespaceName, String resourceName) throws Exception {
+    public void createThriftServerController(String namespaceName) throws Exception {
 
         KubernetesClient client = K8sClientUtil.getKubernetesClient();
 

@@ -19,10 +19,18 @@
 
     <update id="updateResource" parameterType="k8sResource">
         UPDATE resource set user_name = #{userName}, namespace_name = #{namespaceName}, resource_name = #{resourceName},
-        thrift_server_node_port = #{thriftServerNodePort} where id = #{id}
+        thrift_server_node_port = #{thriftServerNodePort} where id = #{id};
     </update>
 
-    <select id="selectResourceByResourceNameAndUserName" resultType="k8sResource">
-        SELECT * FROM resource WHERE user_name = #{userName} AND resource_name = #{resourceName};
+    <select id="selectResourceById" resultType="k8sResource" parameterType="Integer">
+        SELECT * FROM resource WHERE id = #{resourceId};
     </select>
+
+    <select id="selectResourceByResourceNameAndUserName" resultType="k8sResource">
+        SELECT * FROM resource WHERE user_name = #{userName} AND resource_name = #{resourceName} AND isDeleted = 0;
+    </select>
+
+    <update id="deleteResource" parameterType="k8sResource">
+        UPDATE resource set isDeleted = 1 WHERE id = #{id};
+    </update>
 </mapper>

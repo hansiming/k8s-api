@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
@@ -28,5 +29,22 @@ public class KuberneteResource {
                                   @FormParam("containerCount") int containerCount) {
 
         return gson.toJson(service.createResource(userName, resourceName, containerCount));
+    }
+
+    @GET
+    @Path("/delete")
+    public String deleteResources(@FormParam("userName") String userName,
+                                  @FormParam("id") int resourceId) {
+
+        return gson.toJson(service.deleteResource(userName, resourceId));
+    }
+
+    @POST
+    @Path("/execute")
+    public String executeResources(@FormParam("userName") String userName,
+                                  @FormParam("id") int resourceId,
+                                  @FormParam("containerCount") int containerCount) {
+
+        return gson.toJson(service.editResource(userName, resourceId, containerCount));
     }
 }

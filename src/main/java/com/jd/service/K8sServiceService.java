@@ -5,7 +5,7 @@ package com.jd.service;
  */
 public interface K8sServiceService {
 
-    void createMasterService(String namespaceName, String resourceName, int id) throws Exception ;
+    void createMasterService(String namespaceName, int id) throws Exception ;
 
-    void createThriftServerService(String namespaceName, String resourceName, int id) throws Exception ;
+    void createThriftServerService(String namespaceName, int id) throws Exception ;
 }

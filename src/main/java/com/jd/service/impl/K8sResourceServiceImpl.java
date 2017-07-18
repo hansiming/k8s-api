@@ -59,20 +59,20 @@ public class K8sResourceServiceImpl implements K8sResourceService {
             k8sNamespaceService.createNamespace(namespaceName);
 
             //3. 创建一个MasterController
-            k8sControllerService.createMasterController(namespaceName, resourceName);
+            k8sControllerService.createMasterController(namespaceName);
 
             //4. 创建一个MasterService
             /** Master未向外界暴露，所以暂时没有Master Service 的 node port*/
-            k8sServiceService.createMasterService(namespaceName, resourceName, 1);
+            k8sServiceService.createMasterService(namespaceName, 1);
 
             //5. 创建一个WorkController
-            k8sControllerService.createWorkController(namespaceName, resourceName, containerCount);
+            k8sControllerService.createWorkController(namespaceName, containerCount);
 
             //6. 创建一个ThriftServerController
-            k8sControllerService.createThriftServerController(namespaceName, resourceName);
+            k8sControllerService.createThriftServerController(namespaceName);
 
             //7. 创建一个ThriftServerService
-            k8sServiceService.createThriftServerService(namespaceName, resourceName, k8sResource.getThriftServerNodePort());
+            k8sServiceService.createThriftServerService(namespaceName, k8sResource.getThriftServerNodePort());
         } catch (Exception e) {
             return new ReturnMessage(false, e.getMessage());
         }
@@ -80,16 +80,48 @@ public class K8sResourceServiceImpl implements K8sResourceService {
     }
 
     @Override
-    public ReturnMessage deleteResource(String userName, String resourceName) {
+    public ReturnMessage deleteResource(String userName, int resourceId) {
 
-        K8sResource k8sResource = k8sResourceDao.selectResourceByResourceNameAndUserName(userName, resourceName);
+        K8sResource k8sResource = k8sResourceDao.selectResourceById(resourceId);
 
         if(k8sResource == null)
-            return new ReturnMessage(false, "do not have a resource, name is " + resourceName);
+            return new ReturnMessage(false, "do not have a resource, id is " + resourceId);
+
+        k8sResourceDao.selectResourceByResourceNameAndUserName(userName, k8sResource.getResourceName());
+
+        //check resource is belong to user or not
+        if(k8sResource == null)
+            return new ReturnMessage(false, "do not have a resource, name is " + k8sResource.getResourceName());
 
         try {
             // delete namespace
             k8sNamespaceService.deleteNamespace(k8sResource.getNamespaceName());
+            k8sResourceDao.deleteResource(k8sResource);
+        } catch (Exception e) {
+
+            return new ReturnMessage(false, e.getMessage());
+        }
+        return new ReturnMessage(true, "success");
+    }
+
+    @Override
+    public ReturnMessage editResource(String userName, int resourceId, int containerCount) {
+
+        K8sResource k8sResource = k8sResourceDao.selectResourceById(resourceId);
+
+        if(k8sResource == null)
+            return new ReturnMessage(false, "do not have a resource, id is " + resourceId);
+
+        k8sResourceDao.selectResourceByResourceNameAndUserName(userName, k8sResource.getResourceName());
+
+        //check resource is belong to user or not
+        if(k8sResource == null)
+            return new ReturnMessage(false, "do not have a resource, name is " + k8sResource.getResourceName());
+
+
+        try {
+            // delete namespace
+            k8sControllerService.editWorkController(k8sResource.getNamespaceName(), containerCount);
         } catch (Exception e) {
 
             return new ReturnMessage(false, e.getMessage());

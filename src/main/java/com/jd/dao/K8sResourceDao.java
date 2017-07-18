@@ -14,5 +14,9 @@ public interface K8sResourceDao {
 
     int updateResource(K8sResource k8sResource);
 
-    K8sResource selectResourceByResourceNameAndUserName(@Param("userName") String userName,@Param("resourceName") String resourceName);
+    K8sResource selectResourceByResourceNameAndUserName(@Param("userName") String userName,@Param("resourceId") String resourceId);
+
+    int deleteResource(K8sResource k8sResource);
+
+    K8sResource selectResourceById(int resourceId);
 }

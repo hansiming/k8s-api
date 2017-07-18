@@ -9,5 +9,7 @@ public interface K8sResourceService {
 
     ReturnMessage createResource(String userName, String resourceName, int containerCount);
 
-    ReturnMessage deleteResource(String userName, String resourceName);
+    ReturnMessage deleteResource(String userName, int resourceId);
+
+    ReturnMessage editResource(String userName, int resourceId, int containerCount);
 }
