@@ -43,6 +43,9 @@ public class K8sResourceServiceImpl implements K8sResourceService {
             return new ReturnMessage(false, "do not have a resource, user name is " + userName + ", resourceName is " + resourceName);
         }
 
+        k8sResource.setNamespaceName("xxx");
+        k8sResource.setThriftServerNodePort(0);
+
         return new ReturnResult(true, "success", k8sResource);
     }
 
