@@ -9,6 +9,7 @@ import com.jd.service.K8sResourceService;
 import com.jd.service.K8sServiceService;
 import com.jd.util.K8sClientUtil;
 import com.jd.util.ReturnMessage;
+import com.jd.util.ReturnResult;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,18 @@ public class K8sResourceServiceImpl implements K8sResourceService {
 
     @Autowired
     private K8sServiceService k8sServiceService;
+
+    @Override
+    public ReturnMessage getResource(String userName, String resourceName) {
+
+        K8sResource k8sResource = k8sResourceDao.selectResourceByResourceNameAndUserName(userName, resourceName);
+
+        if(k8sResource == null) {
+            return new ReturnMessage(false, "do not have a resource, user name is " + userName + ", resourceName is " + resourceName);
+        }
+
+        return new ReturnResult(true, "success", k8sResource);
+    }
 
     @Override
     public ReturnMessage createResource(String userName, String resourceName, int containerCount) {

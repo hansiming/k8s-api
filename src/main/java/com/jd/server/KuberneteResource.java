@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.jd.service.K8sResourceService;
 import com.jd.util.ReturnMessage;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +21,21 @@ public class KuberneteResource {
     private K8sResourceService service;
 
     private Gson gson = new Gson();
+
+    @GET
+    @Path("/get")
+    public String getResource(@QueryParam("userName") String userName,
+                              @QueryParam("resourceName") String resourceName) {
+
+
+        if(Strings.isNullOrEmpty(userName))
+            return gson.toJson(new ReturnMessage(false, "user name is empty"));
+
+        if(Strings.isNullOrEmpty(resourceName))
+            return gson.toJson(new ReturnMessage(false, "resource name is empty"));
+
+        return gson.toJson(service.getResource(userName, resourceName));
+    }
 
     @POST
     @Path("/create")
