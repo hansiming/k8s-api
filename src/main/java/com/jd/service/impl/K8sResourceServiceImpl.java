@@ -4,6 +4,7 @@ import com.jd.dao.K8sResourceDao;
 import com.jd.model.K8sConstant;
 import com.jd.model.K8sResource;
 import com.jd.service.K8sControllerService;
+import com.jd.service.K8sNamespaceService;
 import com.jd.service.K8sResourceService;
 import com.jd.service.K8sServiceService;
 import com.jd.util.K8sClientUtil;
@@ -24,6 +25,9 @@ public class K8sResourceServiceImpl implements K8sResourceService {
     private K8sResourceDao k8sResourceDao;
 
     @Autowired
+    private K8sNamespaceService k8sNamespaceService;
+
+    @Autowired
     private K8sControllerService k8sControllerService;
 
     @Autowired
@@ -32,11 +36,17 @@ public class K8sResourceServiceImpl implements K8sResourceService {
     @Override
     public ReturnMessage createResource(String userName, String resourceName, int containerCount) {
 
+        // check username and resource name is exists
+        K8sResource k8sResource = k8sResourceDao.selectResourceByResourceNameAndUserName(userName, resourceName);
+
+        if(k8sResource != null)
+            return new ReturnMessage(false, "resouce name is empty");
+
         //1.创建一个uuid作为namespaceName
+        k8sResource = new K8sResource();
         String namespaceName = UUID.randomUUID().toString();
-        K8sResource k8sResource = new K8sResource();
-        k8sResource.setUserName(userName);
         k8sResource.setNamespaceName(namespaceName);
+        k8sResource.setUserName(userName);
         k8sResource.setResourceName(resourceName);
         k8sResourceDao.insertResource(k8sResource);
         /** thrift server node port = 30022 + id*/
@@ -46,7 +56,7 @@ public class K8sResourceServiceImpl implements K8sResourceService {
         try{
 
             //2. 创建一个namespace
-            createNamespace(namespaceName);
+            k8sNamespaceService.createNamespace(namespaceName);
 
             //3. 创建一个MasterController
             k8sControllerService.createMasterController(namespaceName, resourceName);
@@ -64,15 +74,26 @@ public class K8sResourceServiceImpl implements K8sResourceService {
             //7. 创建一个ThriftServerService
             k8sServiceService.createThriftServerService(namespaceName, resourceName, k8sResource.getThriftServerNodePort());
         } catch (Exception e) {
-
             return new ReturnMessage(false, e.getMessage());
         }
-
         return new ReturnMessage(true, "success");
     }
 
-    private void createNamespace(String namespaceName) throws Exception {
-        KubernetesClient client = K8sClientUtil.getKubernetesClient();
-        client.namespaces().createNew().withNewMetadata().withName(namespaceName).endMetadata().done();
+    @Override
+    public ReturnMessage deleteResource(String userName, String resourceName) {
+
+        K8sResource k8sResource = k8sResourceDao.selectResourceByResourceNameAndUserName(userName, resourceName);
+
+        if(k8sResource == null)
+            return new ReturnMessage(false, "do not have a resource, name is " + resourceName);
+
+        try {
+            // delete namespace
+            k8sNamespaceService.deleteNamespace(k8sResource.getNamespaceName());
+        } catch (Exception e) {
+
+            return new ReturnMessage(false, e.getMessage());
+        }
+        return new ReturnMessage(true, "success");
     }
 }

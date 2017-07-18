@@ -11,6 +11,13 @@ public class K8sResource {
     private String resourceName;
     private int thriftServerNodePort;
 
+    public K8sResource() { }
+
+    public K8sResource(String userName, String resourceName) {
+        this.userName = userName;
+        this.resourceName = resourceName;
+    }
+
     public int getId() {
         return id;
     }

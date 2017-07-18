@@ -21,4 +21,8 @@
         UPDATE resource set user_name = #{userName}, namespace_name = #{namespaceName}, resource_name = #{resourceName},
         thrift_server_node_port = #{thriftServerNodePort} where id = #{id}
     </update>
+
+    <select id="selectResourceByResourceNameAndUserName" resultType="k8sResource">
+        SELECT * FROM resource WHERE user_name = #{userName} AND resource_name = #{resourceName};
+    </select>
 </mapper>

@@ -8,4 +8,6 @@ import com.jd.util.ReturnMessage;
 public interface K8sResourceService {
 
     ReturnMessage createResource(String userName, String resourceName, int containerCount);
+
+    ReturnMessage deleteResource(String userName, String resourceName);
 }

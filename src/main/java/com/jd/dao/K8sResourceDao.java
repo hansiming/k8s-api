@@ -1,6 +1,7 @@
 package com.jd.dao;
 
 import com.jd.model.K8sResource;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -12,4 +13,6 @@ public interface K8sResourceDao {
     int insertResource(K8sResource k8sResource);
 
     int updateResource(K8sResource k8sResource);
+
+    K8sResource selectResourceByResourceNameAndUserName(@Param("userName") String userName,@Param("resourceName") String resourceName);
 }
