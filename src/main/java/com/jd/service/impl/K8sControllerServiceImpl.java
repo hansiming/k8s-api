@@ -78,7 +78,7 @@ public class K8sControllerServiceImpl implements K8sControllerService {
                 .editOrNewSpec().withReplicas(replicaCount).withSelector(masterSelector)
                 .editOrNewTemplate().withNewMetadata().addToLabels(masterSelector).endMetadata()
                 .editOrNewSpec().addNewContainer().withName(masterContainerName).withImage(image).withCommand(command).withPorts(sparkPort, httpPort)
-                .editOrNewResources().addToRequests(requests)/*.addToLimits(limit)*/.endResources().endContainer().endSpec().endTemplate().endSpec().done();
+                .editOrNewResources().addToRequests(requests).addToLimits(limit).endResources().endContainer().endSpec().endTemplate().endSpec().done();
     }
 
     /**
@@ -123,7 +123,7 @@ public class K8sControllerServiceImpl implements K8sControllerService {
         client.replicationControllers().inNamespace(namespaceName).createNew().editOrNewMetadata().withName(workControllerName).endMetadata()
                 .editOrNewSpec().withReplicas(workReplicaCount).withSelector(selector).editOrNewTemplate().editOrNewMetadata().addToLabels(selector).endMetadata()
                 .editOrNewSpec().addNewContainer().withName(workContainerName).withImage(image).withCommand(command).withPorts(port)
-                .editOrNewResources().addToRequests(requests)/*.addToLimits(limit)*/.endResources().endContainer().endSpec().endTemplate().endSpec().done();
+                .editOrNewResources().addToRequests(requests).addToLimits(limit).endResources().endContainer().endSpec().endTemplate().endSpec().done();
     }
 
     /**
@@ -169,14 +169,14 @@ public class K8sControllerServiceImpl implements K8sControllerService {
         client.replicationControllers().inNamespace(namespaceName).createNew().editOrNewMetadata().withName(thriftServerControllerName).endMetadata()
                 .editOrNewSpec().withReplicas(thriftServerControllerReplicaCount).withSelector(selector).editOrNewTemplate().editOrNewMetadata().addToLabels(selector).endMetadata()
                 .editOrNewSpec().addNewContainer().withName(thriftServerContainerName).withImage(image).withCommand(command).withPorts(port)
-                .editOrNewResources().addToRequests(requests)/*.addToLimits(limit)*/.endResources().endContainer().endSpec().endTemplate().endSpec().done();
+                .editOrNewResources().addToRequests(requests).addToLimits(limit).endResources().endContainer().endSpec().endTemplate().endSpec().done();
     }
 
     private Map<String, Quantity> getDefaultResource() {
 
         Map<String, Quantity> resource = Maps.newHashMap();
         resource.put(RESOURCE_CPU_KEY, new Quantity(RESOURCE_CPU_VALUE));
-        //resource.put(RESOURCE_MEM_KEY, new Quantity(RESOURCE_MEM_VALUE));
+        resource.put(RESOURCE_MEM_KEY, new Quantity(RESOURCE_MEM_VALUE));
         return resource;
     }
 
