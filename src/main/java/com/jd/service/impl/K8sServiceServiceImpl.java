@@ -33,8 +33,9 @@ public class K8sServiceServiceImpl implements K8sServiceService {
             component: spark-master
      */
     @Override
-    public void createMasterService(String namespaceName, String resourceName, int id) throws Exception {
+    public void createMasterService(String namespaceName, String resourceName, int masterNodePort) throws Exception {
 
+        /** masterNodePort 不能使用*/
         KubernetesClient client = K8sClientUtil.getKubernetesClient();
 
         //get master service name
@@ -81,7 +82,7 @@ public class K8sServiceServiceImpl implements K8sServiceService {
             component: spark-thriftserver
      */
     @Override
-    public void createThriftServerService(String namespaceName, String resourceName, int id) throws Exception {
+    public void createThriftServerService(String namespaceName, String resourceName, int thriftServerNodePort) throws Exception {
 
         KubernetesClient client = K8sClientUtil.getKubernetesClient();
 
@@ -91,12 +92,11 @@ public class K8sServiceServiceImpl implements K8sServiceService {
         String type = DEFAULT_SERVICE_TYPE;
         int port = CONTAINER_DEFAULT_THRIFT_PORT;
         int targetPort = CONTAINER_DEFAULT_THRIFT_PORT;
-        int nodePort = CONTAINER_DEFAULT_THRIFT_NODE_PORT + id;
         String name = DEFAULT_SPARK_NAME;
         Map<String, String> selector = getThriftSelector(workContainerName);
 
         client.services().inNamespace(namespaceName).createNew().editOrNewMetadata().withName(thriftSeverServiceName).endMetadata()
-                .editOrNewSpec().withType(type).addNewPort().withPort(port).withNewTargetPort(targetPort).withNodePort(nodePort).withName(name).endPort()
+                .editOrNewSpec().withType(type).addNewPort().withPort(port).withNewTargetPort(targetPort).withNodePort(thriftServerNodePort).withName(name).endPort()
                 .addToSelector(selector).endSpec().done();
     }
 }

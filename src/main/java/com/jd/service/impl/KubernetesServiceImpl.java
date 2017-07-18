@@ -1,7 +1,7 @@
 //package com.jd.service.impl;
 //
 //import com.jd.dao.K8sNamespaceDao;
-//import com.jd.model.K8sNamespace;
+//import com.jd.model.K8sResource;
 //import com.jd.service.KuberneteService;
 //import com.jd.util.K8sClientUtil;
 //import com.jd.util.ReturnMessage;
@@ -36,7 +36,7 @@
 //
 //        //1.创建一个uuid作为namespaceName
 //        String namespaceName = UUID.randomUUID().toString();
-//        K8sNamespace k8sNamespace = new K8sNamespace();
+//        K8sResource k8sNamespace = new K8sResource();
 //        k8sNamespace.setUserName(userName);
 //        k8sNamespace.setNamespaceName(namespaceName);
 //        k8sNamespaceDao.insertNamespace(k8sNamespace);

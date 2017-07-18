@@ -1,8 +1,8 @@
 package com.jd.test;
 
 import com.jd.K8sApiApplication;
-import com.jd.dao.K8sNamespaceDao;
-import com.jd.model.K8sNamespace;
+import com.jd.dao.K8sResourceDao;
+import com.jd.model.K8sResource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +21,14 @@ import java.util.UUID;
 public class NamespaceTest {
 
     @Autowired
-    private K8sNamespaceDao dao;
+    private K8sResourceDao dao;
 
     @Test
     public void insert() {
 
-        K8sNamespace namespace = new K8sNamespace();
+        K8sResource namespace = new K8sResource();
         namespace.setUserName("哈哈");
         namespace.setNamespaceName(UUID.randomUUID().toString());
-        dao.insertNamespace(namespace);
+        dao.insertResource(namespace);
     }
 }

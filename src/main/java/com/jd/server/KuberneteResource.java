@@ -1,7 +1,6 @@
 package com.jd.server;
 
 import com.google.gson.Gson;
-import com.jd.dao.K8sNamespaceDao;
 import com.jd.service.K8sResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import java.util.UUID;
 
 /**
  * Created by hansiming on 2017/7/14.
