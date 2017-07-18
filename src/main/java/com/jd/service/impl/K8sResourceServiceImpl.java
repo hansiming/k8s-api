@@ -87,7 +87,7 @@ public class K8sResourceServiceImpl implements K8sResourceService {
         if(k8sResource == null)
             return new ReturnMessage(false, "do not have a resource, id is " + resourceId);
 
-        k8sResourceDao.selectResourceByResourceNameAndUserName(userName, k8sResource.getResourceName());
+        k8sResource = k8sResourceDao.selectResourceByResourceNameAndUserName(userName, k8sResource.getResourceName());
 
         //check resource is belong to user or not
         if(k8sResource == null)
@@ -112,7 +112,7 @@ public class K8sResourceServiceImpl implements K8sResourceService {
         if(k8sResource == null)
             return new ReturnMessage(false, "do not have a resource, id is " + resourceId);
 
-        k8sResourceDao.selectResourceByResourceNameAndUserName(userName, k8sResource.getResourceName());
+        k8sResource = k8sResourceDao.selectResourceByResourceNameAndUserName(userName, k8sResource.getResourceName());
 
         //check resource is belong to user or not
         if(k8sResource == null)
