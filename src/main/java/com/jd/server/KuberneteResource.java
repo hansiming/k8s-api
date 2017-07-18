@@ -1,7 +1,9 @@
 package com.jd.server;
 
+import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.jd.service.K8sResourceService;
+import com.jd.util.ReturnMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +27,15 @@ public class KuberneteResource {
                                   @FormParam("resourceName") String resourceName,
                                   @FormParam("containerCount") int containerCount) {
 
+        if(Strings.isNullOrEmpty(userName))
+            return gson.toJson(new ReturnMessage(false, "user name is empty"));
+
+        if(Strings.isNullOrEmpty(resourceName))
+            return gson.toJson(new ReturnMessage(false, "resource name is empty"));
+
+        if(containerCount < 0)
+            return gson.toJson(new ReturnMessage(false, "container count is less than 0"));
+
         return gson.toJson(service.createResource(userName, resourceName, containerCount));
     }
 
@@ -32,6 +43,9 @@ public class KuberneteResource {
     @Path("/delete")
     public String deleteResources(@QueryParam("userName") String userName,
                                   @QueryParam("id") int resourceId) {
+
+        if(Strings.isNullOrEmpty(userName))
+            return gson.toJson(new ReturnMessage(false, "user name is empty"));
 
         return gson.toJson(service.deleteResource(userName, resourceId));
     }
@@ -41,6 +55,12 @@ public class KuberneteResource {
     public String executeResources(@FormParam("userName") String userName,
                                   @FormParam("id") int resourceId,
                                   @FormParam("containerCount") int containerCount) {
+
+        if(Strings.isNullOrEmpty(userName))
+            return gson.toJson(new ReturnMessage(false, "user name is empty"));
+
+        if(containerCount < 0)
+            return gson.toJson(new ReturnMessage(false, "container count is less than 0"));
 
         return gson.toJson(service.editResource(userName, resourceId, containerCount));
     }

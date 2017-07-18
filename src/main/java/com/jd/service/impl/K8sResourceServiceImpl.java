@@ -116,7 +116,7 @@ public class K8sResourceServiceImpl implements K8sResourceService {
 
         //check resource is belong to user or not
         if(k8sResource == null)
-            return new ReturnMessage(false, "do not have a resource, resourceId is " + resourceId);
+            return new ReturnMessage(false, "do not have a resource, user name is " + userName + ", resourceId is " + resourceId);
 
 
         try {
