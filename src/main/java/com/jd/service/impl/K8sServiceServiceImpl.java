@@ -38,7 +38,7 @@ public class K8sServiceServiceImpl implements K8sServiceService {
         KubernetesClient client = K8sClientUtil.getKubernetesClient();
 
         //get master service name
-        String masterServiceName = DEFAULT_SPARK_NAME + MASTER_INFO + SERVICE_INFO;
+//        String masterServiceName = DEFAULT_SPARK_NAME + MASTER_INFO + SERVICE_INFO;
 
         //get container name
         String masterContainerName = DEFAULT_SPARK_NAME + MASTER_INFO;
@@ -59,7 +59,7 @@ public class K8sServiceServiceImpl implements K8sServiceService {
         //make selector
         Map<String, String> masterSelector = getMasterSelector(masterContainerName);
 
-        client.services().inNamespace(namespaceName).createNew().editOrNewMetadata().withName(masterServiceName).endMetadata()
+        client.services().inNamespace(namespaceName).createNew().editOrNewMetadata().withName(masterContainerName).endMetadata()
                 .editOrNewSpec().addNewPort().withName(sparkName).withPort(sparkPort).withNewTargetPort(sparkPort).endPort()
                 .addNewPort().withName(httpName).withPort(httpPort).withNewTargetPort(httpPort).endPort()
                 .addToSelector(masterSelector).endSpec().done();
