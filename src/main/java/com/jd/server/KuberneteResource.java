@@ -67,7 +67,7 @@ public class KuberneteResource {
     }
 
     @POST
-    @Path("/execute")
+    @Path("/update")
     public String executeResources(@FormParam("userName") String userName,
                                   @FormParam("id") int resourceId,
                                   @FormParam("containerCount") int containerCount) {

@@ -134,7 +134,7 @@ public class K8sControllerServiceImpl implements K8sControllerService {
         String workControllerName = DEFAULT_SPARK_NAME + WORK_INFO + CONTROLLER_INFO;
 
         client.replicationControllers().inNamespace(namespaceName).withName(workControllerName)
-                .edit().editSpec().withReplicas(containerCount).endSpec().done();
+                .scale(containerCount);
     }
 
     /**
