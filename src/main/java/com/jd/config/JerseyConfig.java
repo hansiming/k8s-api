@@ -1,6 +1,6 @@
 package com.jd.config;
 
-import com.jd.server.KuberneteResource;
+import com.jd.server.KubernetesResource;
 import com.jd.server.NamespaceResource;
 import com.jd.server.ServiceK8sResource;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -16,6 +16,6 @@ public class JerseyConfig extends ResourceConfig {
 
         register(NamespaceResource.class);
         register(ServiceK8sResource.class);
-        register(KuberneteResource.class);
+        register(KubernetesResource.class);
     }
 }

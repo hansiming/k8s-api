@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
  * Created by hansiming on 2017/7/14.
  */
 @Repository
-public interface K8sResourceDao {
+public interface K8sResourceMapper {
 
     int insertResource(K8sResource k8sResource);
 

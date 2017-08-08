@@ -1,9 +1,3 @@
-
-CREATE DATABASE `k8s` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-
-create table namespace (id int primary key auto_increment, user_name varchar(255) not null, namespace_name varchar(255) not null)  DEFAULT CHARSET=utf8;
-
-create table resource (id int primary key auto_increment, user_name varchar(255) not null, namespace_name varchar(255) not null
-, resource_name varchar(255) NOT NULL , thrift_server_node_port int)  DEFAULT CHARSET=utf8;
-
-alter table resource add COLUMN isDeleted int default 0;
+create table k8s_resource (id int primary key auto_increment, user_name varchar(255) not null, namespace_name varchar(255) not null
+, resource_name varchar(255) NOT NULL , thrift_server_node_port int, isDeleted int default 0, useTime varchar(255) not null, useType varchar(255) not null
+, resourceTypeId int, containerCount int, startTime varchar(255), endTime varchar(255), createTime varchar(255), updateTime varchar(255)) DEFAULT CHARSET=utf8;

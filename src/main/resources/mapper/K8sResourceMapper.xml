@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="com.jd.dao.K8sResourceDao">
+<mapper namespace="com.jd.dao.K8sResourceMapper">
 
     <resultMap id="k8sResource" type="com.jd.model.K8sResource">
         <id property="id" column="id"/>
@@ -13,24 +13,24 @@
     </resultMap>
 
     <insert id="insertResource" parameterType="k8sResource" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO resource (user_name, namespace_name, resource_name, thrift_server_node_port)
+        INSERT INTO k8s_resource (user_name, namespace_name, resource_name, thrift_server_node_port)
         VALUES (#{userName}, #{namespaceName}, #{resourceName}, #{thriftServerNodePort});
     </insert>
 
     <update id="updateResource" parameterType="k8sResource">
-        UPDATE resource set user_name = #{userName}, namespace_name = #{namespaceName}, resource_name = #{resourceName},
+        UPDATE k8s_resource set user_name = #{userName}, namespace_name = #{namespaceName}, resource_name = #{resourceName},
         thrift_server_node_port = #{thriftServerNodePort} where id = #{id};
     </update>
 
     <select id="selectResourceById" resultType="k8sResource" parameterType="Integer">
-        SELECT * FROM resource WHERE id = #{resourceId};
+        SELECT * FROM k8s_resource WHERE id = #{resourceId};
     </select>
 
     <select id="selectResourceByResourceNameAndUserName" resultType="k8sResource">
-        SELECT * FROM resource WHERE user_name = #{userName} AND resource_name = #{resourceName} AND isDeleted = 0;
+        SELECT * FROM k8s_resource WHERE user_name = #{userName} AND resource_name = #{resourceName} AND isDeleted = 0;
     </select>
 
     <update id="deleteResource" parameterType="k8sResource">
-        UPDATE resource set isDeleted = 1 WHERE id = #{id};
+        UPDATE k8s_resource set isDeleted = 1 WHERE id = #{id};
     </update>
 </mapper>

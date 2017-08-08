@@ -18,6 +18,7 @@ public class K8sConstant {
     public static final String RESOURCE_MEM_VALUE = "1Gi";
     public static final String RESOURCE_CPU_KEY = "cpu";
     public static final String RESOURCE_CPU_VALUE = "100m";
+    public static final String RESOURCE_UNIT = "Gi";
 
     /** Ports */
     public static final int CONTAINER_DEFAULT_SPARK_PORT = 7077;
