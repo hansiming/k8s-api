@@ -10,16 +10,26 @@
         <result property="namespaceName" column="namespace_name"/>
         <result property="resourceName" column="resource_name"/>
         <result property="thriftServerNodePort" column="thrift_server_node_port"/>
+        <result property="isDeleted" column="is_deleted"/>
+        <result property="useTime" column="use_time"/>
+        <result property="useType" column="use_type"/>
+        <result property="resourceTypeId" column="resource_type_id"/>
+        <result property="containerCount" column="container_count"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
     </resultMap>
 
     <insert id="insertResource" parameterType="k8sResource" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO k8s_resource (user_name, namespace_name, resource_name, thrift_server_node_port)
-        VALUES (#{userName}, #{namespaceName}, #{resourceName}, #{thriftServerNodePort});
+        INSERT INTO k8s_resource (user_name, namespace_name, resource_name, thrift_server_node_port, use_time, use_type, resource_type_id, container_count, start_time, end_time, create_time, update_time)
+        VALUES (#{userName}, #{namespaceName}, #{resourceName}, #{thriftServerNodePort}, #{useTime}, #{useType}, #{resourceTypeId}, #{containerCount}, #{startTime}, #{endTime}, #{createTime}, #{updateTime});
     </insert>
 
     <update id="updateResource" parameterType="k8sResource">
         UPDATE k8s_resource set user_name = #{userName}, namespace_name = #{namespaceName}, resource_name = #{resourceName},
-        thrift_server_node_port = #{thriftServerNodePort} where id = #{id};
+        thrift_server_node_port = #{thriftServerNodePort}, use_time = #{useTime}, use_type = #{useType}, resource_type_id = #{resourceTypeId}, container_count = #{containerCount},
+        start_time = #{startTime}, end_time = #{endTime}, create_time = #{createTime}, update_time = #{updateTime} where id = #{id};
     </update>
 
     <select id="selectResourceById" resultType="k8sResource" parameterType="Integer">
@@ -31,6 +41,6 @@
     </select>
 
     <update id="deleteResource" parameterType="k8sResource">
-        UPDATE k8s_resource set isDeleted = 1 WHERE id = #{id};
+        UPDATE k8s_resource set is_deleted = 1 WHERE id = #{id};
     </update>
 </mapper>
