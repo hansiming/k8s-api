@@ -1,28 +1,24 @@
 package com.jd.util;
 
 import com.google.common.collect.Maps;
-import com.jd.service.impl.K8sNamespaceServiceImpl;
 import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.ConfigBuilder;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Map;
 
-import static com.jd.model.K8sConstant.*;
+import static com.jd.model.K8sConstant.COMPONENT_INFO;
+import static com.jd.model.K8sConstant.THRIFT_SERVER_INFO;
 
 /**
  * Created by hansiming on 2017/7/10.
  */
 @Component
 public class K8sClientUtil {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(K8sClientUtil.class);
 
     @Value("${k8s_url}")
     private String k8sUrl;
@@ -36,7 +32,6 @@ public class K8sClientUtil {
 
     public static KubernetesClient getKubernetesClient() {
         Config config = new ConfigBuilder().withMasterUrl(util.k8sUrl).build();
-        LOGGER.info("k8sUrl = {}", util.k8sUrl);
         return new DefaultKubernetesClient(config);
     }
 

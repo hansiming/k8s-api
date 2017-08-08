@@ -154,12 +154,14 @@ public class K8sResourceServiceImpl implements K8sResourceService {
 
 //        DateTime now = DateTime.now();
 //        k8sResource.setUpdateTime(DateUtil.formatDateTime(now));
-        k8sResource.setContainerCount(containerCount);
+
+        int oldContainerCount  = k8sResource.getContainerCount();
+        k8sResource.setContainerCount(oldContainerCount + containerCount);
         k8sResourceDao.updateResource(k8sResource);
 
         try {
             // scale
-            k8sControllerService.editWorkController(k8sResource.getNamespaceName(), k8sResource.getContainerCount() + containerCount, resourceTypeId, k8sResource.getResourceTypeId());
+            k8sControllerService.editWorkController(k8sResource.getNamespaceName(), k8sResource.getContainerCount(), resourceTypeId, k8sResource.getResourceTypeId());
         } catch (Exception e) {
 
             return new ReturnMessage(false, e.getMessage());
