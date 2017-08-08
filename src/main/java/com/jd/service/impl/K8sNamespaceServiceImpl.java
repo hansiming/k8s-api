@@ -18,8 +18,8 @@ public class K8sNamespaceServiceImpl implements K8sNamespaceService {
     @Override
     public void createNamespace(String namespaceName) throws Exception {
 
-        LOGGER.info("create namespace, namespace = {}", namespaceName);
         KubernetesClient client = K8sClientUtil.getKubernetesClient();
+        LOGGER.info("create namespace, namespace = {}, client = {}", namespaceName, client);
         client.namespaces().createNew().withNewMetadata().withName(namespaceName).endMetadata().done();
     }
 
