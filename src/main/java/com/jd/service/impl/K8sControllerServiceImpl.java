@@ -153,13 +153,13 @@ public class K8sControllerServiceImpl implements K8sControllerService {
             throw new Exception("can`t find resource type by resourceTypeId = " + resourceTypeId);
         }
 
-        Map<String, Quantity> requests = getWorkerResource(type);
+//        Map<String, Quantity> requests = getWorkerResource(type);
         Map<String, Quantity> limit = getWorkerResource(type);
 
         client.replicationControllers().inNamespace(namespaceName).createNew().editOrNewMetadata().withName(workControllerName).endMetadata()
                 .editOrNewSpec().withReplicas(workReplicaCount).withSelector(selector).editOrNewTemplate().editOrNewMetadata().addToLabels(selector).endMetadata()
                 .editOrNewSpec().addNewContainer().withName(workContainerName).withImage(image).withCommand(command).withPorts(port)
-                .editOrNewResources().addToRequests(requests).addToLimits(limit).endResources().endContainer().endSpec().endTemplate().endSpec().done();
+                .editOrNewResources()/*.addToRequests(requests)*/.addToLimits(limit).endResources().endContainer().endSpec().endTemplate().endSpec().done();
     }
 
     @Override
