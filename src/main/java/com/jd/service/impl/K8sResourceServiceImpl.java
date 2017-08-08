@@ -6,10 +6,8 @@ import com.jd.service.K8sControllerService;
 import com.jd.service.K8sNamespaceService;
 import com.jd.service.K8sResourceService;
 import com.jd.service.K8sServiceService;
-import com.jd.util.DateUtil;
 import com.jd.util.ReturnMessage;
 import com.jd.util.ReturnResult;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -71,7 +69,7 @@ public class K8sResourceServiceImpl implements K8sResourceService {
         //1.创建一个uuid作为namespaceName
         k8sResource = new K8sResource();
         String namespaceName = UUID.randomUUID().toString();
-        DateTime now = DateTime.now();
+//        DateTime now = DateTime.now();
         k8sResource.setNamespaceName(namespaceName);
         k8sResource.setUserName(userName);
         k8sResource.setResourceName(resourceName);
@@ -79,9 +77,9 @@ public class K8sResourceServiceImpl implements K8sResourceService {
         k8sResource.setUseType(useType);
         k8sResource.setResourceTypeId(resourceTypeId);
         k8sResource.setContainerCount(containerCount);
-        k8sResource.setCreateTime(DateUtil.formatDateTime(now));
-        k8sResource.setUpdateTime(DateUtil.formatDateTime(now));
-        k8sResource.setStartTime(DateUtil.formatDateTime(now));
+//        k8sResource.setCreateTime(DateUtil.formatDateTime(now));
+//        k8sResource.setUpdateTime(DateUtil.formatDateTime(now));
+//        k8sResource.setStartTime(DateUtil.formatDateTime(now));
 //        k8sResource.setEndTime(DateUtil.formatDateTime(
 //                DateUtil.getEndDayForApplyCluster(now,
 //                        useType,
@@ -154,8 +152,8 @@ public class K8sResourceServiceImpl implements K8sResourceService {
             return new ReturnMessage(false, "do not have a resource, resourceId is " + resourceId);
         }
 
-        DateTime now = DateTime.now();
-        k8sResource.setUpdateTime(DateUtil.formatDateTime(now));
+//        DateTime now = DateTime.now();
+//        k8sResource.setUpdateTime(DateUtil.formatDateTime(now));
         k8sResource.setContainerCount(containerCount);
         k8sResourceDao.updateResource(k8sResource);
 
