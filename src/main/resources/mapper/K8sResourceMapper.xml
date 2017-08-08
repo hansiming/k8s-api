@@ -37,7 +37,7 @@
     </select>
 
     <select id="selectResourceByResourceNameAndUserName" resultType="k8sResource">
-        SELECT * FROM k8s_resource WHERE user_name = #{userName} AND resource_name = #{resourceName} AND isDeleted = 0;
+        SELECT * FROM k8s_resource WHERE user_name = #{userName} AND resource_name = #{resourceName} AND is_deleted = 0;
     </select>
 
     <update id="deleteResource" parameterType="k8sResource">
