@@ -112,7 +112,7 @@ public class K8sResourceServiceImpl implements K8sResourceService {
         } catch (Exception e) {
 
             log.info("create kubernetes resource is fail, resource name = " + resourceName + ",username = " + userName + ", e=" + e);
-            return new ReturnMessage(false, e.getMessage());
+            return new ReturnMessage(false, "create kubernetes resource is fail, resource name = " + resourceName + ",username = " + userName + ", e=" + e + ", k8sResource = " + k8sResource);
         }
         return new ReturnMessage(true, "success");
     }

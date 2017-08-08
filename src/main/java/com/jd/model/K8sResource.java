@@ -129,4 +129,23 @@ public class K8sResource {
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
+
+    @Override
+    public String toString() {
+        return "K8sResource{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", namespaceName='" + namespaceName + '\'' +
+                ", resourceName='" + resourceName + '\'' +
+                ", thriftServerNodePort=" + thriftServerNodePort +
+                ", useTime='" + useTime + '\'' +
+                ", useType='" + useType + '\'' +
+                ", resourceTypeId=" + resourceTypeId +
+                ", containerCount=" + containerCount +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", updateTime='" + updateTime + '\'' +
+                '}';
+    }
 }
