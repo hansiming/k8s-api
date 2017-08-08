@@ -15,7 +15,7 @@
 
     <appender name="FILE-SQL" class="org.apache.log4j.DailyRollingFileAppender">
         <param name="DatePattern" value="'.'yyyy-MM-dd"/>
-        <param name="file" value="${log.path}/RasApi.log"/>
+        <param name="file" value="/home/jd/log/"/>
         <param name="Append" value="true"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d [%7r] %6p - %30.30c - %m \n"/>
